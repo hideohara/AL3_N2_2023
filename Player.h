@@ -6,6 +6,7 @@
 #include "MathUtilityforText.h"
 #include "PlayerBullet.h"
 
+
 #include <list>
 
 class Player {
@@ -66,4 +67,6 @@ public:
 	// 弾
 	//PlayerBullet* bullet_ = nullptr;
 	std::list<PlayerBullet*> bullets_;
+
+
 };
