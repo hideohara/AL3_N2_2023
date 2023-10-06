@@ -4,7 +4,7 @@
 #include "WorldTransform.h"
 #include "Input.h"
 #include "MathUtilityforText.h"
-
+#include "PlayerBullet.h"
 
 class Player {
 
@@ -33,6 +33,17 @@ public:
 	/// </summary>
 	void move();
 
+	/// <summary>
+	/// 旋回（回転）
+	/// </summary>
+	void Rotate();
+	
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
+
+
  private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -43,4 +54,8 @@ public:
 
 	// キーボード入力
 	Input* input_ = nullptr;
+
+	
+	// 弾
+	PlayerBullet* bullet_ = nullptr;
 };
