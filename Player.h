@@ -6,9 +6,16 @@
 #include "MathUtilityforText.h"
 #include "PlayerBullet.h"
 
+#include <list>
+
 class Player {
 
 public:
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Player();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -57,5 +64,6 @@ public:
 
 	
 	// 弾
-	PlayerBullet* bullet_ = nullptr;
+	//PlayerBullet* bullet_ = nullptr;
+	std::list<PlayerBullet*> bullets_;
 };
