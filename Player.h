@@ -28,6 +28,11 @@ public:
 	void Draw(ViewProjection& viewProjection);
 
 	
+	/// <summary>
+	/// 移動
+	/// </summary>
+	void move();
+
  private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
