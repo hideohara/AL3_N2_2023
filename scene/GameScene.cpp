@@ -4,6 +4,7 @@
 
 GameScene::GameScene() {}
 
+// デストラクタ
 GameScene::~GameScene() {
 
 	// 自キャラの解放
@@ -13,6 +14,7 @@ GameScene::~GameScene() {
 	delete model_; 
 }
 
+// 初期化
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
