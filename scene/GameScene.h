@@ -61,6 +61,11 @@ public: // メンバ関数
 	/// <param name="enemyBullet">敵弾</param>
 	void AddEnemyBullet(EnemyBullet* enemyBullet);
 
+	/// <summary>
+	/// 敵の発生
+	/// </summary>
+	void PopEnemy(const Vector3& position);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -85,8 +90,6 @@ private: // メンバ変数
 	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
 
-	// 敵
-	Enemy* enemy_ = nullptr;
 	// 天球
 	Skydome* skydome_ = nullptr;
 	// 3Dモデル
@@ -95,4 +98,6 @@ private: // メンバ変数
 	RailCamera* railCamera_ = nullptr;
 	// 弾
 	std::list<EnemyBullet*> enemyBullets_;
+	// 敵
+	std::list<Enemy*> enemies_;
 };
