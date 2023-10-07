@@ -11,6 +11,7 @@ GameScene::~GameScene() {
 
 	// 自キャラの解放
 	delete railCamera_;
+	delete modelSkydome_;
 	delete skydome_;
 	delete debugCamera_;
 	delete enemy_;
