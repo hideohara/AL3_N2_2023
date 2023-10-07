@@ -48,10 +48,11 @@ void Enemy::Update() {
 	worldTransform_.TransferMatrix();
 
 	// キャラクターの座標を画面表示する処理
+#ifdef _DEBUG
 	ImGui::Begin("Enemy");
 	ImGui::SliderFloat3("Translation", (float*)&worldTransform_.translation_, -100, 100);
 	ImGui::End();
-
+#endif
 
 
 }
@@ -64,9 +65,11 @@ void Enemy::Draw(const ViewProjection& viewProjection) {
 
 
 void Enemy::PhaseApproach() {
+#ifdef _DEBUG
 	ImGui::Begin("Enemy");
 	ImGui::Text("Phase: Approach");
 	ImGui::End();
+#endif
 
 	// 移動（ベクトルを加算）
 	worldTransform_.translation_ += Vector3(0, 0, -0.1f);
@@ -84,9 +87,11 @@ void Enemy::PhaseApproach() {
 }
 
 void Enemy::PhaseLeave() {
+#ifdef _DEBUG
 	ImGui::Begin("Enemy");
 	ImGui::Text("Phase: Leave");
 	ImGui::End();
+#endif
 
 	// 移動（ベクトルを加算）
 	worldTransform_.translation_ += Vector3(-0.1f, 0.1f, -0.1f);

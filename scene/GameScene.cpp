@@ -304,8 +304,6 @@ void GameScene::CheckAllCollisions() {
 					playerBullet->OnCollision();
 					// 敵弾の衝突時コールバックを呼び出す
 					enemyBullet->OnCollision();
-					// ゲームオーバー
-					isEnd_ = true;
 				}
 			}
 		}

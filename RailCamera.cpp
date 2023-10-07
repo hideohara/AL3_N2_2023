@@ -26,8 +26,10 @@ void RailCamera::Update() {
 	viewProjection_.TransferMatrix();
 
 	// カメラの座標を画面表示する処理
+#ifdef _DEBUG
 	ImGui::Begin("Camera");
 	ImGui::SliderFloat3("Translation", (float*)&worldTransform_.translation_, -100, 100);
 	ImGui::SliderFloat3("Rotation", (float*)&worldTransform_.rotation_, -PI, PI);
 	ImGui::End();
+#endif
 }

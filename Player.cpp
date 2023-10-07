@@ -72,10 +72,12 @@ void Player::Update(const ViewProjection& viewProjection) {
 	// 行列を定数バッファに転送
 	worldTransform_.TransferMatrix();
 
+#ifdef _DEBUG
 	//// キャラクターの座標を画面表示する処理
 	ImGui::Begin("Player");
 	ImGui::SliderFloat3("Player", (float*)&worldTransform_.translation_, -100, 100);
 	ImGui::End();
+#endif
 
 	// 弾更新
 	for (PlayerBullet* bullet : bullets_) {
@@ -180,6 +182,7 @@ void Player::Update(const ViewProjection& viewProjection) {
 		// 行列を定数バッファに転送
 		worldTransform3DReticle_.TransferMatrix();
 
+#ifdef _DEBUG
 		ImGui::Begin("Player2");
 		ImGui::Text("2DReticle:(%f,%f)", spritePosition.x, spritePosition.y);
 		ImGui::Text("Near:(%+.2f,%+.2f,%+.2f)", posNear.x, posNear.y, posNear.z);
@@ -188,7 +191,7 @@ void Player::Update(const ViewProjection& viewProjection) {
 		    "3DReticle:(%+.2f,%+.2f,%+.2f)", worldTransform3DReticle_.translation_.x,
 		    worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
 		ImGui::End();
-
+#endif
 	}
 }
 
