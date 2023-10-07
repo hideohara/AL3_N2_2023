@@ -3,12 +3,10 @@
 #include "MathUtilityForText.h"
 #include <cassert>
 #include "Player.h"
+#include "GameScene.h"
 
 Enemy::~Enemy() {
-	// 弾更新
-	for (EnemyBullet* bullet : bullets_) {
-		delete bullet;
-	}
+
 }
 
 void Enemy::Initialize(Model* model, const Vector3& position) {
@@ -53,19 +51,7 @@ void Enemy::Update() {
 	ImGui::SliderFloat3("Translation", (float*)&worldTransform_.translation_, -100, 100);
 	ImGui::End();
 
-	// 弾更新
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Update();
-	}
 
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
 
 }
 
@@ -73,10 +59,7 @@ void Enemy::Draw(const ViewProjection& viewProjection) {
 	// モデルの描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 
-	// 弾描画
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Draw(viewProjection);
-	}
+
 }
 
 
@@ -134,7 +117,7 @@ void Enemy::Fire() {
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
 	// 弾を登録する
-	bullets_.push_back(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 void Enemy::PhaseApproachInitialize() {

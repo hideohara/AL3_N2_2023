@@ -8,6 +8,8 @@
 
 // 自機クラスの前方宣言
 class Player;
+// GameSceneの前方宣言（苦肉の策）
+class GameScene;
 
 /// <summary>
 /// 敵
@@ -57,6 +59,9 @@ public:
 	
 	void SetPlayer(Player* player) { player_ = player; }
 
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
+
 	
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
@@ -64,8 +69,6 @@ public:
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
-	// 弾リストを取得
-	const std::list<EnemyBullet*>& GetBullets() { return bullets_; }
 
 private:
 	// ワールド変換データ
@@ -78,12 +81,13 @@ private:
 	bool isDead_ = false;
 	// フェーズ
 	Phase phase_ = Phase::Approach;
-	// 弾
-	std::list<EnemyBullet*> bullets_;
+
 	// 発射タイマー
 	int32_t fireTimer = 0;
 
 	
 	// 自キャラ
 	Player* player_ = nullptr;
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };

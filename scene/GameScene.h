@@ -51,6 +51,16 @@ public: // メンバ関数
 	/// </summary>
 	void CheckAllCollisions();
 
+	// 弾リストを取得
+	const std::list<EnemyBullet*>& GetBullets() { return enemyBullets_; }
+
+	
+    /// <summary>
+	/// 敵弾を追加する
+	/// </summary>
+	/// <param name="enemyBullet">敵弾</param>
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -83,4 +93,6 @@ private: // メンバ変数
 	Model* modelSkydome_ = nullptr;
 	// レールカメラ
 	RailCamera* railCamera_ = nullptr;
+	// 弾
+	std::list<EnemyBullet*> enemyBullets_;
 };
