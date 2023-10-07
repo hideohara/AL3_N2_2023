@@ -180,7 +180,7 @@ void Player::Update(const ViewProjection& viewProjection) {
 		// 行列を定数バッファに転送
 		worldTransform3DReticle_.TransferMatrix();
 
-		ImGui::Begin("Player");
+		ImGui::Begin("Player2");
 		ImGui::Text("2DReticle:(%f,%f)", spritePosition.x, spritePosition.y);
 		ImGui::Text("Near:(%+.2f,%+.2f,%+.2f)", posNear.x, posNear.y, posNear.z);
 		ImGui::Text("Far:(%+.2f,%+.2f,%+.2f)", posFar.x, posFar.y, posFar.z);
@@ -192,7 +192,7 @@ void Player::Update(const ViewProjection& viewProjection) {
 	}
 }
 
-
+// 描画
 void Player::Draw(ViewProjection& viewProjection) {
 	// 3Dモデルを描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
