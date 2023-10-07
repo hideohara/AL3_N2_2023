@@ -25,9 +25,17 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 	worldTransform_.translation_ = position;
 	worldTransform_.Initialize();
 
-	
-// シングルトンインスタンスを取得する
+	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
+	
+	// 3Dレティクルのワールドトランスフォーム初期化
+	worldTransform3DReticle_.Initialize();
+
+	// レティクル用テクスチャ取得
+	//uint32_t textureReticle = TextureManager::Load("画像ファイル名");
+
+	// スプライト生成
+	//sprite2DReticle_ = Sprite::Create(textureReticle, 座標, 色, アンカーポイント);
 }
 
 void Player::Update() {
@@ -71,7 +79,29 @@ void Player::Update() {
 		bullet->Update();
 	}
 
+	
+// 自機のワールド座標から3Dレティクルのワールド座標を計算
+	{
+		// 自機から3Dレティクルへの距離
+		const float kDistancePlayerTo3DReticle = 50.0f;
+		// 自機から3Dレティクルへのオフセット(Z+向き)
+		Vector3 offset = {0, 0, 1.0f};
+		// 自機のワールド行列の回転を反映
+		offset = TransformNormal(offset, worldTransform_.matWorld_);
+		// ベクトルの長さを整える
+		offset = Normalize(offset) * kDistancePlayerTo3DReticle;
+		// 3Dレティクルの座標を設定
+		worldTransform3DReticle_.translation_ = GetWorldPosition() + offset;
+		
+		// 行列更新
+		worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
+		    worldTransform3DReticle_.scale_, 
+			worldTransform3DReticle_.rotation_,
+		    worldTransform3DReticle_.translation_);
 
+		// 行列を定数バッファに転送
+		worldTransform3DReticle_.TransferMatrix();
+	}
 }
 
 
@@ -83,6 +113,9 @@ void Player::Draw(ViewProjection& viewProjection) {
 	for (PlayerBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection);
 	}
+
+	// 3Dレティクルを描画
+	model_->Draw(worldTransform3DReticle_, viewProjection, textureHandle_);
 }
 
 // 移動
@@ -143,6 +176,10 @@ void Player::Attack() {
 		Vector3 velocity(0, 0, kBulletSpeed);
 		// 速度ベクトルを自機の向きに合わせて回転させる
 		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+
+		// 自キャラから照準オブジェクトへのベクトル
+		velocity = worldTransform3DReticle_.translation_ - GetWorldPosition();
+		velocity = Normalize(velocity) * kBulletSpeed;
 
 		// 弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();

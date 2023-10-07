@@ -5,7 +5,7 @@
 #include "Input.h"
 #include "MathUtilityforText.h"
 #include "PlayerBullet.h"
-
+//#include "Sprite.h"
 
 #include <list>
 
@@ -79,10 +79,12 @@ public:
 	// キーボード入力
 	Input* input_ = nullptr;
 
-	
 	// 弾
-	//PlayerBullet* bullet_ = nullptr;
 	std::list<PlayerBullet*> bullets_;
 
+    // 3Dレティクル用ワールドトランスフォーム
+	WorldTransform worldTransform3DReticle_;
 
+	// 2Dレティクル用スプライト
+	//Sprite* sprite2DReticle_ = nullptr;
 };
