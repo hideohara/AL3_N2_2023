@@ -155,6 +155,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// 各種解放
 	SafeDelete(gameScene);
+	SafeDelete(gameOver);
 	SafeDelete(title);
 
 
