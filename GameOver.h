@@ -12,14 +12,13 @@
 /// <summary>
 /// ゲームシーン
 /// </summary>
-class Title {
+class GameOver {
 
 public: // メンバ関数
-
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Title();
+	~GameOver();
 
 	/// <summary>
 	/// 初期化
@@ -64,5 +63,4 @@ private: // メンバ変数
 
 	// 終了フラグ
 	bool isEnd_ = false;
-
 };

@@ -7,11 +7,13 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 #include "Title.h"
+#include "GameOver.h"
 
 // シーン
 enum class Scene {
 	Title,	// タイトル
-	Game,   // ゲーム
+	GamePlay,   // ゲーム
+	GameOver,  // ゲーム
 };
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -26,6 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	GameScene* gameScene = nullptr;
 	Title* title = nullptr;
+	GameOver* gameOver = nullptr;
 
 	Scene scene = Scene::Title;
 
@@ -74,10 +77,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
-	// ゲームシーンの初期化
 	title = new Title();
 	title->Initialize();
 
+	gameOver = new GameOver();
+	gameOver->Initialize();
 
 	// メインループ
 	while (true) {
@@ -93,19 +97,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// ゲームシーンの毎フレーム処理
 		switch (scene) {
-		case Scene::Game:
+		case Scene::GamePlay:
 			gameScene->Update();
 			if (gameScene->GetIsEnd()) {
-				scene = Scene::Title;
-				title->Start();
+				scene = Scene::GameOver;
+				gameOver->Start();
 			}
 			break;
 		case Scene::Title:
 			title->Update();
 			if (title->GetIsEnd()) {
-				scene = Scene::Game;
+				scene = Scene::GamePlay;
 				gameScene->Start();
 				gameScene->Update();
+			}
+			break;
+		case Scene::GameOver:
+			gameOver->Update();
+			if (gameOver->GetIsEnd()) {
+				scene = Scene::Title;
+				title->Start();
 			}
 			break;
 		}
@@ -120,11 +131,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// ゲームシーンの描画
 		switch (scene) {
-		case Scene::Game:
+		case Scene::GamePlay:
 			gameScene->Draw();
 			break;
 		case Scene::Title:
 			title->Draw();
+			break;
+		case Scene::GameOver:
+			gameScene->Draw();
+			gameOver->Draw();
 			break;
 		}
 

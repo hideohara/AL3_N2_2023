@@ -258,7 +258,7 @@ void Player::Rotate() {
 // 攻撃
 void Player::Attack() {
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if (input_->TriggerKey(DIK_SPACE) || input_->IsTriggerMouse(0)) {
 
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);

@@ -1,42 +1,38 @@
-﻿#include "Title.h"
-
+﻿#include "GameOver.h"
 
 #include "TextureManager.h"
 #include <cassert>
 
-
-
-
 // デストラクタ
-Title::~Title() { 
-	delete sprite_; 
+GameOver::~GameOver() {
+	delete sprite_;
 	delete spriteEnter_;
 }
 
 // 初期化
-void Title::Initialize() {
+void GameOver::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("title.png");
+	textureHandle_ = TextureManager::Load("GameOver.png");
 	// スプライトの生成
-	sprite_ = Sprite::Create(textureHandle_, {0, 0});
+	sprite_ = Sprite::Create(textureHandle_, {0, 100});
 	// ファイル名を指定してテクスチャを読み込む
 	textureHandleEnter_ = TextureManager::Load("enter.png");
 	// スプライトの生成
 	spriteEnter_ = Sprite::Create(textureHandleEnter_, {400, 500});
 }
 
-void Title::Update() {
+void GameOver::Update() {
 	if (input_->TriggerKey(DIK_RETURN)) {
 		isEnd_ = true;
 	}
 }
 
-void Title::Draw() {
+void GameOver::Draw() {
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
@@ -63,7 +59,6 @@ void Title::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -85,7 +80,4 @@ void Title::Draw() {
 #pragma endregion
 }
 
-void Title::Start() { 
-	isEnd_ = false; 
-}
-
+void GameOver::Start() { isEnd_ = false; }
