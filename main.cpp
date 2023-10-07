@@ -105,6 +105,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (title->GetIsEnd()) {
 				scene = Scene::Game;
 				gameScene->Start();
+				gameScene->Update();
 			}
 			break;
 		}

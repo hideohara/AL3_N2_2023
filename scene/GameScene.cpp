@@ -419,7 +419,7 @@ void GameScene::UpdateEnemyPopCommands() {
 
 void GameScene::Start() {
 	isEnd_ = false; 
-	// 弾
+	//// 弾
 	//for (EnemyBullet* bullet : enemyBullets_) {
 	//	delete bullet;
 	//}
@@ -430,19 +430,38 @@ void GameScene::Start() {
 
 	// 弾を削除
 	enemyBullets_.remove_if([](EnemyBullet* bullet) {
+		if (1) {
 			delete bullet;
 			return true;
+		}
+		//delete bullet;
+		//return false;
 	});
 	// 敵を削除
 	enemies_.remove_if([](Enemy* enemy) {
+		if (1) {
 			delete enemy;
 			return true;
+		}
+		//delete enemy;
+		//return false;
 	});
+
+	//for (EnemyBullet* bullet : enemyBullets_) {
+	//	bullet->OnCollision();
+	//}
+	//for (Enemy* enemy : enemies_) {
+	//	enemy->OnCollision();
+	//}
 
 	player_->Start();
 	
 	// リストの最初へ
+	//LoadEnemyPopData();
 	enemyPopCommands.seekg(0);
+
+	// レールカメラ初期化
+	railCamera_->Initialize(Vector3(0, 0, -50), Vector3(0, 0, 0));
 
 
 }

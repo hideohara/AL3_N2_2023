@@ -313,10 +313,13 @@ Vector3 Player::GetWorldPosition2DReticle() {
 
 void Player::Start() {
 	// 弾を削除
-	bullets_.remove_if([](PlayerBullet* bullet) {
-			delete bullet;
-			return true;
-	});
+	//bullets_.remove_if([](PlayerBullet* bullet) {
+	//		delete bullet;
+	//		return true;
+	//});
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->OnCollision();
+	}
 }
 
 
