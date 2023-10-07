@@ -135,4 +135,7 @@ Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
-void Enemy::OnCollision() {}
+void Enemy::OnCollision() {
+	// デスフラグを立てる
+	isDead_ = true;
+}
