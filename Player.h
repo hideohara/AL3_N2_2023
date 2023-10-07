@@ -74,6 +74,8 @@ public:
 
 	Vector3 GetWorldPosition2DReticle();
 
+	void Start();
+
  private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

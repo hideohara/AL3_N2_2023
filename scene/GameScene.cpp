@@ -113,20 +113,12 @@ void GameScene::Update() {
 	player_->Update(viewProjection_);
 	// 天球の更新
 	skydome_->Update();
-	// 衝突判定
-	CheckAllCollisions();
+
 
 	// 敵発生コマンドの更新
 	UpdateEnemyPopCommands();
 
-	// 弾更新
-	for (EnemyBullet* bullet : enemyBullets_) {
-		bullet->Update();
-	}
-	// 敵の更新
-	for (auto& enemy : enemies_) {
-		enemy->Update();
-	}
+
 
 	// デスフラグの立った弾を削除
 	enemyBullets_.remove_if([](EnemyBullet* bullet) {
@@ -145,7 +137,22 @@ void GameScene::Update() {
 		return false;
 	});
 
+	// 敵の更新
+	for (auto& enemy : enemies_) {
+		enemy->Update();
+	}
 
+	// 弾更新
+	for (EnemyBullet* bullet : enemyBullets_) {
+		bullet->Update();
+	}
+
+	//if (input_->TriggerKey(DIK_RETURN)) {
+	//	isEnd_ = true;
+	//}
+
+	// 衝突判定
+	CheckAllCollisions();
 }
 
 void GameScene::Draw() {
@@ -241,6 +248,8 @@ void GameScene::CheckAllCollisions() {
 				player_->OnCollision();
 				// 敵弾の衝突時コールバックを呼び出す
 				bullet->OnCollision();
+				// ゲームオーバー
+				isEnd_ = true;
 			}
 		}
 	}
@@ -295,6 +304,8 @@ void GameScene::CheckAllCollisions() {
 					playerBullet->OnCollision();
 					// 敵弾の衝突時コールバックを呼び出す
 					enemyBullet->OnCollision();
+					// ゲームオーバー
+					isEnd_ = true;
 				}
 			}
 		}
@@ -403,11 +414,35 @@ void GameScene::UpdateEnemyPopCommands() {
 			break;
 		}
 
-
-
-
-
-
-
 	}
+}
+
+void GameScene::Start() {
+	isEnd_ = false; 
+	// 弾
+	//for (EnemyBullet* bullet : enemyBullets_) {
+	//	delete bullet;
+	//}
+	//// 敵
+	//for (Enemy* enemy : enemies_) {
+	//	delete enemy;
+	//}
+
+	// 弾を削除
+	enemyBullets_.remove_if([](EnemyBullet* bullet) {
+			delete bullet;
+			return true;
+	});
+	// 敵を削除
+	enemies_.remove_if([](Enemy* enemy) {
+			delete enemy;
+			return true;
+	});
+
+	player_->Start();
+	
+	// リストの最初へ
+	enemyPopCommands.seekg(0);
+
+
 }

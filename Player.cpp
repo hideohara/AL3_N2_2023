@@ -276,9 +276,6 @@ void Player::Attack() {
 		// 弾を登録する
 		bullets_.push_back(newBullet);
 	}
-
-
-
 }
 
 Vector3 Player::GetWorldPosition() {
@@ -313,3 +310,14 @@ Vector3 Player::GetWorldPosition2DReticle() {
 	worldPos.z = worldTransform3DReticle_.matWorld_.m[3][2];
 	return worldPos;
 }
+
+void Player::Start() {
+	// 弾を削除
+	bullets_.remove_if([](PlayerBullet* bullet) {
+			delete bullet;
+			return true;
+	});
+}
+
+
+

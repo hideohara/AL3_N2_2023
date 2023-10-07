@@ -78,6 +78,9 @@ public: // メンバ関数
 	/// </summary>
 	void UpdateEnemyPopCommands();
 
+	bool GetIsEnd() { return isEnd_; }
+
+	void Start();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -118,4 +121,7 @@ private: // メンバ変数
 	std::stringstream enemyPopCommands;
 	bool isWait = false;
 	int32_t counter;
+	
+	// 終了フラグ
+	bool isEnd_ = false;
 };
