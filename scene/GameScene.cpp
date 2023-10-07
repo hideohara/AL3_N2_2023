@@ -48,7 +48,8 @@ void GameScene::Initialize() {
 	// 自キャラの生成
 	player_ = new Player();
 	// 自キャラの初期化
-	player_->Initialize(model_, textureHandle_);
+	Vector3 playerPosition(0, 0, 50.0f);
+	player_->Initialize(model_, textureHandle_, playerPosition);
 
 	// 敵キャラの生成
 	enemy_ = new Enemy();
@@ -68,6 +69,9 @@ void GameScene::Initialize() {
 	// レールカメラの生成
 	railCamera_ = new RailCamera();
 	railCamera_->Initialize(Vector3(0, 0, -50), Vector3(0, 0, 0));
+
+	// 自キャラとレールカメラの親子関係を結ぶ
+	player_->SetParent(&railCamera_->GetWorldTransform());
 }
 
 void GameScene::Update() {
