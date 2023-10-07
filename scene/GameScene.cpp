@@ -10,11 +10,12 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 
 	// 自キャラの解放
-	delete player_;
-	delete model_; 
+	delete railCamera_;
+	delete skydome_;
 	delete debugCamera_;
 	delete enemy_;
-	delete skydome_;
+	delete player_;
+	delete model_; 
 }
 
 // 初期化
@@ -64,9 +65,14 @@ void GameScene::Initialize() {
 	// 天球の生成
 	skydome_ = new Skydome();
 	skydome_->Initialize(modelSkydome_);
+	// レールカメラの生成
+	railCamera_ = new RailCamera();
+	railCamera_->Initialize(Vector3(0, 0, -50), Vector3(0, 0, 0));
 }
 
 void GameScene::Update() {
+	// レールカメラの更新
+	railCamera_->Update();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0)) {
@@ -81,8 +87,11 @@ void GameScene::Update() {
 		// ビュープロジェクションの転送
 		viewProjection_.TransferMatrix();
 	} else {
-		// ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクションの転送
+		viewProjection_.TransferMatrix();
 	}
 
 
