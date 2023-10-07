@@ -66,6 +66,19 @@ public: // メンバ関数
 	/// </summary>
 	void PopEnemy(const Vector3& position);
 
+	
+    /// <summary>
+	/// 敵発生データの読み込み
+	/// </summary>
+	void LoadEnemyPopData();
+
+	
+    /// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -100,4 +113,9 @@ private: // メンバ変数
 	std::list<EnemyBullet*> enemyBullets_;
 	// 敵
 	std::list<Enemy*> enemies_;
+	
+    //  敵発生コマンド
+	std::stringstream enemyPopCommands;
+	bool isWait = false;
+	int32_t counter;
 };
