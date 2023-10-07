@@ -47,8 +47,12 @@ void GameScene::Initialize() {
 
 	// 敵キャラの生成
 	enemy_ = new Enemy();
-	Vector3 enemyPosition(0, 2.0f, 50.0f);
+	Vector3 enemyPosition(30, 2.0f, 50.0f);
 	enemy_->Initialize(model_, enemyPosition);
+
+	
+	// 敵キャラに自キャラのアドレスを渡す
+	enemy_->SetPlayer(player_);
 }
 
 void GameScene::Update() {

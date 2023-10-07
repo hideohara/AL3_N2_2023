@@ -1,11 +1,11 @@
 ﻿#pragma once
 
+
+#include "MathUtilityforText.h"
 #include "Model.h"
 #include "WorldTransform.h"
-#include "MathUtilityforText.h"
-//#include "PlayerBullet.h"
 
-class PlayerBullet {
+class EnemyBullet {
 
 public:
 	/// <summary>
@@ -21,8 +21,7 @@ public:
 	/// </summary>
 	void Update();
 
-	
-    /// <summary>
+	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
@@ -44,7 +43,7 @@ private:
 
 	// 速度
 	Vector3 velocity_;
-	
+
 	// 寿命<frm>
 	static const int32_t kLifeTime = 60 * 5;
 	// デスタイマー
