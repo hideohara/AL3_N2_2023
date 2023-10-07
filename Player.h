@@ -5,7 +5,7 @@
 #include "Input.h"
 #include "MathUtilityforText.h"
 #include "PlayerBullet.h"
-//#include "Sprite.h"
+#include "Sprite.h"
 
 #include <list>
 
@@ -27,7 +27,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(const ViewProjection& viewProjection);
 
     /// <summary>
 	/// 描画
@@ -67,6 +67,12 @@ public:
 	/// <param name="parent">親となるワールドトランスフォーム</param>
 	void SetParent(const WorldTransform* parent);
 
+	/// <summary>
+	/// UI描画
+	/// </summary>
+	void DrawUI();
+
+	Vector3 GetWorldPosition2DReticle();
 
  private:
 	// ワールド変換データ
@@ -86,5 +92,5 @@ public:
 	WorldTransform worldTransform3DReticle_;
 
 	// 2Dレティクル用スプライト
-	//Sprite* sprite2DReticle_ = nullptr;
+	Sprite* sprite2DReticle_ = nullptr;
 };

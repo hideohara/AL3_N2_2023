@@ -2,7 +2,7 @@
 #include <cassert>
 #include "ImGuiManager.h"
 #include "Vector3.h"
-
+#include "DirectXCommon.h"
 #include <algorithm>
 
 Player::~Player() {
@@ -10,7 +10,7 @@ Player::~Player() {
 	for (PlayerBullet* bullet : bullets_) {
 		delete bullet;
 	}
-
+	delete sprite2DReticle_;
 }
 
 void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& position) {
@@ -32,13 +32,16 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 	worldTransform3DReticle_.Initialize();
 
 	// レティクル用テクスチャ取得
-	//uint32_t textureReticle = TextureManager::Load("画像ファイル名");
+	uint32_t textureReticle = TextureManager::Load("reticle.png");
 
 	// スプライト生成
 	//sprite2DReticle_ = Sprite::Create(textureReticle, 座標, 色, アンカーポイント);
+	sprite2DReticle_ = Sprite::Create(
+	    textureReticle, Vector2(WinApp::kWindowWidth / 2.0f, WinApp::kWindowHeight / 2.0f),
+	    Vector4(1, 1, 1, 1), Vector2(0.5f, 0.5f));
 }
 
-void Player::Update() {
+void Player::Update(const ViewProjection& viewProjection) {
 	// デスフラグの立った弾を削除
 	bullets_.remove_if([](PlayerBullet* bullet) {
 		if (bullet->IsDead()) {
@@ -101,6 +104,26 @@ void Player::Update() {
 
 		// 行列を定数バッファに転送
 		worldTransform3DReticle_.TransferMatrix();
+	}
+
+	// 3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
+	{
+		// 3Dレティクルのワールド行列から、ワールド座標を取得;
+		Vector3 positionReticle = GetWorldPosition2DReticle();
+
+		// ビューポート行列
+		Matrix4x4 matViewport =
+		    MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
+
+		// ビュー行列とプロジェクション行列、ビューポート行列を合成する
+		Matrix4x4 matViewProjectionViewport =
+		    viewProjection.matView * viewProjection.matProjection * matViewport;
+
+		// ワールド→スクリーン座標変換（ここで3Dから2Dになる）
+		positionReticle = Transform(positionReticle, matViewProjectionViewport);
+
+		// スプライトのレティクルに座標設定
+		sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 	}
 }
 
@@ -208,4 +231,18 @@ void Player::SetParent(const WorldTransform* parent) {
 
 	// 親子関係を結ぶ
 	worldTransform_.parent_ = parent;
+}
+
+void Player::DrawUI() {
+	// 2Dレティクルを描画
+	sprite2DReticle_->Draw();
+}
+
+Vector3 Player::GetWorldPosition2DReticle() {
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得（ワールド座標）
+	worldPos.x = worldTransform3DReticle_.matWorld_.m[3][0];
+	worldPos.y = worldTransform3DReticle_.matWorld_.m[3][1];
+	worldPos.z = worldTransform3DReticle_.matWorld_.m[3][2];
+	return worldPos;
 }

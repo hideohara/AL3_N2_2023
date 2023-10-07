@@ -110,7 +110,7 @@ void GameScene::Update() {
 	debugCamera_->Update();
 
 	// 自キャラの更新
-	player_->Update();
+	player_->Update(viewProjection_);
 	// 天球の更新
 	skydome_->Update();
 	// 衝突判定
@@ -200,6 +200,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
+	player_->DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
