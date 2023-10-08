@@ -235,8 +235,8 @@ void Player::move() {
 	worldTransform_.translation_ += move;
 
 	// 移動限界座標
-	const float kMoveLimitX = 34.0f;
-	const float kMoveLimitY = 18.0f;
+	const float kMoveLimitX = 20.0f;
+	const float kMoveLimitY = 11.0f;
 
 	// 範囲を超えない処理
 	worldTransform_.translation_.x =
